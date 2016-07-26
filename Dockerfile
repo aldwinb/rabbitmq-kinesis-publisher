@@ -1,9 +1,11 @@
 FROM python:2-slim
 
-COPY src /usr/src/app/
+MAINTAINER aldwinb
 
 WORKDIR /usr/src/app
 
-ENTRYPOINT ["python", "-u"]
+COPY ["src", "requirements.txt", "/usr/src/app/"]
 
-CMD ["publisher.py"]
+RUN pip install --upgrade -r requirements.txt
+
+ENTRYPOINT ["python", "-u", "publisher.py"]

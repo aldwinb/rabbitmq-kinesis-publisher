@@ -1,0 +1,6 @@
+app:
+  build: .
+  container_name: rmqk-publisher-1
+  volumes:
+    - .:/usr/src/app
+  entrypoint: /bin/bash
