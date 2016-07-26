@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import boto3, os.path, inspect, time, pika, ConfigParser
-import overrides as ov
+import boto3, os.path, inspect, time, pika, ConfigParser, overrides as ov, sys
 
 config = None
 kinesis_write_delay = 0
@@ -21,7 +20,7 @@ def start_consume(channel,
                   queue_name,
                   no_ack=True,):
 
-    channel.queue_declare(queue_name=queue_name)
+    channel.queue_declare(queue=queue_name)
 
     if channel_declarator:
         channel_declarator.execute(channel, queue_name, loc_config)
@@ -49,11 +48,9 @@ def get_config(filename):
 
 
 def main():
-    pre_path = os.path.dirname(os.path.abspath(
-        inspect.getfile(inspect.currentframe())))
-
+    args = sys.argv[1:]
     global config, kinesis_write_delay
-    config = get_config(os.path.join(pre_path, 'config.ini'))
+    config = get_config(args[0])
     kinesis_write_delay = int(config.get('kinesis', 'write delay'))
     channel = RabbitMqChannelFactory.create_channel(url=config.get('rabbitmq',
                                                                    'url'))
