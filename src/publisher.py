@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-import boto3, os.path, inspect, time, pika, ConfigParser, overrides as ov, sys
+import boto3, time, pika, ConfigParser, overrides as ov, sys
 
 config = None
 kinesis_write_delay = 0
-
+k = None
 
 class RabbitMqChannelFactory(object):
 
@@ -34,7 +34,6 @@ def start_consume(channel,
 
 
 def callback(ch, method, properties, body):
-    k = boto3.client('kinesis')
     time.sleep(kinesis_write_delay)
     partition_key = ov.get_stream_partition_key(method)
     k.put_record(StreamName=config.get('kinesis', 'stream'),
@@ -51,9 +50,10 @@ def get_config(filename):
 
 def main():
     args = sys.argv[1:]
-    global config, kinesis_write_delay
+    global config, kinesis_write_delay, k
     config = get_config(args[0])
     kinesis_write_delay = int(config.get('kinesis', 'write delay'))
+    k = boto3.client('kinesis')
     channel = RabbitMqChannelFactory.create_channel(url=config.get('rabbitmq',
                                                                    'url'))
     declarator = ov.get_declarator()

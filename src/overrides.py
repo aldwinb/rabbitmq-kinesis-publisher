@@ -6,4 +6,4 @@ def get_declarator():
 
 
 def get_stream_partition_key(method):
-    return 1
+    return '1'
