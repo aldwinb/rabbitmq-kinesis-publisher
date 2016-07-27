@@ -13,3 +13,6 @@ class TopicsDeclarator(RabbitMqDeclarator):
             channel.queue_bind(exchange=exchange,
                                queue=queue_name,
                                routing_key=routing_key)
+        if config.has_option('rabbitmq', 'prefetch count'):
+            channel.basic_qos(prefetch_count=int(config.get('rabbitmq',
+                                                            'prefetch count')))

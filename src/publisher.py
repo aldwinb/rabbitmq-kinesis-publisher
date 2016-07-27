@@ -6,6 +6,7 @@ config = None
 kinesis_write_delay = 0
 k = None
 
+
 class RabbitMqChannelFactory(object):
 
     @staticmethod
@@ -34,12 +35,13 @@ def start_consume(channel,
 
 
 def callback(ch, method, properties, body):
-    time.sleep(kinesis_write_delay)
+    if kinesis_write_delay > 0:
+        time.sleep(kinesis_write_delay)
     partition_key = ov.get_stream_partition_key(method)
     k.put_record(StreamName=config.get('kinesis', 'stream'),
                  Data=body,
                  PartitionKey=partition_key)
-    print ('Record {0} published'.format(method.delivery_tag))
+    print('Record {0} published'.format(method.delivery_tag))
 
 
 def get_config(filename):
