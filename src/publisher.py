@@ -29,6 +29,7 @@ def start_consume(channel,
                           queue=queue_name,
                           no_ack=no_ack)
 
+    print ('Start consuming...')
     channel.start_consuming()
 
 
@@ -39,6 +40,7 @@ def callback(ch, method, properties, body):
     k.put_record(StreamName=config.get('kinesis', 'stream'),
                  Data=body,
                  PartitionKey=partition_key)
+    print ('Record {0} published'.format(method.delivery_tag))
 
 
 def get_config(filename):
