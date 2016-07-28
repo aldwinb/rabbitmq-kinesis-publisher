@@ -1,6 +1,6 @@
 from nose.tools import *
 from mock import Mock
-from src import (publisher as pub, declarator as dec)
+from rmq2k import (publisher as pub, declarator as dec)
 
 
 def test_should_execute_declarator():

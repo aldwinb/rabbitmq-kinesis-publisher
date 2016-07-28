@@ -21,6 +21,6 @@ RUN pip install --upgrade \
 
 WORKDIR /usr/src/app
 
-COPY ["src", "entrypoint.sh", "/usr/src/app/"]
+COPY ["rmq2k", "entrypoint.sh", "/usr/src/app/"]
 
 ENTRYPOINT ["sh", "entrypoint.sh"]

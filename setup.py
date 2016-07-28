@@ -14,7 +14,7 @@ config = {
     'version': '0.0.1',
     'install_requires': ['pika==0.10.0',
                          'boto3==1.3.1'],
-    'packages': ['src'],
+    'packages': ['rmq2k'],
     'name': 'rabbitmq-kinesis-publisher'
 }
 
