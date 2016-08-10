@@ -20,10 +20,12 @@ while getopts "c:t:" opt; do
       token_code=$OPTARG
       ;;
     \?)
-      die "Invalid option: -$OPTARG."
+      echo "Invalid option: -$OPTARG." >&2
+      usage
       ;;
     :)
-      die "Option -$OPTARG requires an argument."
+      echo "Option -$OPTARG requires an argument." >&2
+      usage
       ;;
   esac
 done

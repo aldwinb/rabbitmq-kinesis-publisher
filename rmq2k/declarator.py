@@ -1,9 +1,5 @@
-class RabbitMqDeclarator(object):
-    def execute(self, channel, queue_name, config):
-        pass
 
-
-class TopicsDeclarator(RabbitMqDeclarator):
+class TopicsDeclarator(object):
     def execute(self, channel, queue_name, config):
         exchange = config.get('rabbitmq', 'exchange')
         channel.exchange_declare(exchange=exchange,

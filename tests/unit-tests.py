@@ -1,6 +1,6 @@
 from nose.tools import *
 from mock import Mock
-from rmq2k import (publisher as pub, declarator as dec)
+from rmq2k import (publisher as pub, declarator as dec, partitioner as part)
 
 
 def test_should_execute_declarator():
@@ -34,6 +34,31 @@ def test_should_not_fail_if_declarator_is_null():
                       loc_config=config,
                       queue_name=queue_name,
                       no_ack=no_ack)
+
+
+def test_should_create_instance_of_declarator():
+    d = pub.load_override(dec, regex='Declarator$')
+    assert isinstance(d, dec.TopicsDeclarator)
+
+
+def test_should_create_instance_of_partitioner():
+    d = pub.load_override(part, regex='Partitioner$')
+    assert isinstance(d, part.DefaultPartitioner)
+
+
+def test_should_load_declarator_override():
+    pub.load_override = Mock()
+    pub.load_declarator()
+    pub.load_override.assert_called_with(dec, regex='Declarator$')
+
+
+def test_should_load_partitioner_override():
+    pub.load_override = Mock()
+    pub.load_partitioner()
+    pub.load_override.assert_called_with(part, regex='Partitioner$')
+# def test_should_create_instance_of_partitioner():
+#     d = pub.get_override(part, name='DefaultPartitioner')
+#     assert isinstance(d, part.DefaultPartitioner)
 
 
 class TestTopicsDeclarator(object):
