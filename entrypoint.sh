@@ -12,7 +12,7 @@ usage () {
 "[-p partitioner_name]"
 }
 
-while getopts ":c" opt; do
+while getopts ":c:t:d:p:" opt; do
   case ${opt} in
     c)
       cli_input_json=$OPTARG
@@ -37,7 +37,7 @@ while getopts ":c" opt; do
   esac
 done
 
-if [[ ! -z ${cli_input_json+x} ]] && [[ ! -z ${token_code+x} ]]; then
+if [[ ! -z ${cli_input_json} ]] && [[ ! -z ${token_code} ]]; then
   $(create-aws-sts-token -c /root/.aws/${cli_input_json} -t ${token_code})
 fi
 
