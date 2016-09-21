@@ -83,7 +83,7 @@ def main():
     global config, kinesis_write_delay, k, partitioner_override
     config = get_config(args[0])
     kinesis_write_delay = int(config.get('kinesis', 'write delay'))
-    k = boto3.client('kinesis')
+    k = boto3.client('kinesis', region=config.get('kinesis', 'region'))
     channel = RabbitMqChannelFactory.create_channel(url=config.get('rabbitmq',
                                                                    'url'))
     declarator_override = load_declarator() if len(args) > 1 else None
